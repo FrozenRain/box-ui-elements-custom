@@ -18,8 +18,9 @@ import headerCellRenderer from './headerCellRenderer';
 import sizeCellRenderer from './sizeCellRenderer';
 import dateCellRenderer from './dateCellRenderer';
 import moreOptionsCellRenderer from './moreOptionsCellRenderer';
-import { FIELD_DATE, FIELD_ID, FIELD_NAME, FIELD_SIZE, VIEW_FOLDER, VIEW_RECENTS } from '../../constants';
+import { FIELD_SELECTED, FIELD_DATE, FIELD_ID, FIELD_NAME, FIELD_SIZE, VIEW_FOLDER, VIEW_RECENTS } from '../../constants';
 import './ItemList.scss';
+import checkboxCellRenderer from './checkboxCellRenderer';
 
 type Props = {
     canDelete: boolean,
@@ -33,6 +34,7 @@ type Props = {
     isSmall: boolean,
     isTouch: boolean,
     onItemClick: Function,
+    onItemCheck: Function,
     onItemDelete: Function,
     onItemDownload: Function,
     onItemPreview: Function,
@@ -44,6 +46,7 @@ type Props = {
     rootId: string,
     tableRef: Function,
     view: View,
+    checked: Collection
 } & InjectIntlProvidedProps;
 
 const ItemList = ({
@@ -59,6 +62,7 @@ const ItemList = ({
     canPreview,
     canRename,
     onItemClick,
+    onItemCheck,
     onItemSelect,
     onItemDelete,
     onItemDownload,
@@ -70,6 +74,7 @@ const ItemList = ({
     tableRef,
     focusedRow,
     intl,
+    checked
 }: Props) => {
     const nameCell = nameCellRenderer(
         rootId,
@@ -116,6 +121,12 @@ const ItemList = ({
         onSortChange(by, direction);
     };
 
+    const checkboxCell = checkboxCellRenderer(
+      (idx: number, ...extra) =>
+        onItemCheck(items[idx]),
+      intl.formatMessage(messages.isSelected)
+    );
+
     return (
         <KeyBinder
             id={id}
@@ -159,6 +170,9 @@ const ItemList = ({
                                 }
                             }}
                         >
+                            <Column dataKey={FIELD_SELECTED} cellRenderer={checkboxCell} width={30} flexShrink={0} className="tbl-row-select-cbx"
+                              cellDataGetter={({ rowData, dataKey }) => checked[rowData[FIELD_ID]] }
+                            />
                             <Column
                                 disableSort
                                 dataKey={FIELD_ID}

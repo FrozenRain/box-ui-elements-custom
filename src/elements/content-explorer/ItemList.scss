@@ -80,6 +80,16 @@
     &.bce-item-row-selected + & {
         border-top-color: $grey-blue;
     }
+
+    .tbl-row-select-cbx {
+      .checkbox-container {
+        margin: 0;
+        padding: .25em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
 }
 
 .bce-item-header-row {

@@ -939,6 +939,11 @@ const messages = defineMessages({
             'If a user has been deleted, we call the user "a prior collaborator" - meaning someone who used to be able to collaborate on the content.',
         defaultMessage: 'A Prior Collaborator',
     },
+    isSelected: {
+        id: 'be.isSelected',
+        description: 'Label for item checked attribute.',
+        defaultMessage: 'Is selected',
+    },
 });
 
 export default messages;

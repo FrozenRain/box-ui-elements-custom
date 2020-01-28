@@ -41,6 +41,7 @@ type Props = {
     isTouch: boolean,
     metadataColumnsToShow?: MetadataColumnsToShow,
     onItemClick: Function,
+    onItemCheck: Function,
     onItemDelete: Function,
     onItemDownload: Function,
     onItemPreview: Function,
@@ -53,6 +54,7 @@ type Props = {
     tableRef: Function,
     view: View,
     viewMode?: ViewMode,
+    checked: Collection
 };
 
 const Content = ({

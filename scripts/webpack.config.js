@@ -85,6 +85,9 @@ function getConfig(isReactExternalized) {
                     loader: 'babel-loader',
                     // For webpack dev build perf we want to exlcude node_modules unless we want to support legacy browsers like IE11
                     exclude: shouldIncludeAllSupportedBrowsers ? /node_modules\/pikaday/ : /node_modules/,
+                    query: {
+                      presets:  [['@babel/preset-env', { "targets": { "esmodules": true }}]]
+                  },
                 },
                 {
                     test: /\.s?css$/,

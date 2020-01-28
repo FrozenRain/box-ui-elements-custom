@@ -140,6 +140,7 @@ export const FIELD_APP: 'app' = 'app';
 export const FIELD_OCCURRED_AT: 'occurred_at' = 'occurred_at';
 export const FIELD_RENDERED_TEXT: 'rendered_text' = 'rendered_text';
 export const FIELD_RETENTION: 'retention' = 'retention';
+export const FIELD_SELECTED = 'checked';
 
 /* ----------------------- Permissions --------------------------- */
 export const PERMISSION_CAN_PREVIEW = 'can_preview';

@@ -106,6 +106,7 @@ type Props = {
     onPreview: Function,
     onRename: Function,
     onSelect: Function,
+    onCheck: Function,
     onUpload: Function,
     requestInterceptor?: Function,
     responseInterceptor?: Function,
@@ -116,7 +117,7 @@ type Props = {
     sortDirection: SortDirection,
     staticHost: string,
     token: Token,
-    uploadHost: string,
+    uploadHost: string
 };
 
 type State = {
@@ -139,6 +140,7 @@ type State = {
     sortBy: SortBy,
     sortDirection: SortDirection,
     view: View,
+    checked: Collection
 };
 
 const localStoreViewMode = 'bce.defaultViewMode';
@@ -188,6 +190,7 @@ class ContentExplorer extends Component<Props, State> {
         onRename: noop,
         onCreate: noop,
         onSelect: noop,
+        onCheck: noop,
         onUpload: noop,
         onNavigate: noop,
         defaultView: DEFAULT_VIEW_FILES,
@@ -257,6 +260,7 @@ class ContentExplorer extends Component<Props, State> {
             sortBy,
             sortDirection,
             view: VIEW_FOLDER,
+            checked: {}
         };
     }
 
@@ -560,6 +564,35 @@ class ContentExplorer extends Component<Props, State> {
 
         this.preview(item);
     };
+
+    onItemCheck = (item: BoxItem) => {
+      const { checked } = this.state;
+      const { onCheck }: Props = this.props;
+
+      if (checked[item.id])
+        this.uncheck(item);
+      else
+        this.setState({ checked: { ...checked, [ item.id ]: item }});
+
+      onCheck(cloneDeep(this.state.checked));
+    }
+
+    uncheckAll = () => {
+      this.setState({ checked: {}});
+    }
+
+    uncheck = (item: BoxItem) => {
+      const { checked } = this.state;
+
+      this.setState({ checked:
+        Object.keys(checked)
+          .filter(id => id != item.id)
+          .reduce((collection, id) => {
+            collection[ id ] = checked[ id ];
+            return collection;
+          }, {})
+      });
+    }
 
     /**
      * Search success callback
@@ -1431,6 +1464,7 @@ class ContentExplorer extends Component<Props, State> {
             isLoading,
             errorCode,
             focusedRow,
+            checked
         }: State = this.state;
 
         const { id, offset, permissions, totalCount }: Collection = currentCollection;
@@ -1494,6 +1528,7 @@ class ContentExplorer extends Component<Props, State> {
                             isSmall={isSmall}
                             isTouch={isTouch}
                             onItemClick={this.onItemClick}
+                            onItemCheck={this.onItemCheck}
                             onItemDelete={this.delete}
                             onItemDownload={this.download}
                             onItemPreview={this.preview}
@@ -1507,6 +1542,7 @@ class ContentExplorer extends Component<Props, State> {
                             view={view}
                             viewMode={viewMode}
                             metadataColumnsToShow={metadataColumnsToShow}
+                            checked={checked}
                         />
                         <Footer>
                             <Pagination
