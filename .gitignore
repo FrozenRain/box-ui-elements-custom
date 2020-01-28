@@ -4,7 +4,6 @@
 .DS_Store
 .idea
 _site
-dist
 es
 i18n/*.js
 i18n/json
