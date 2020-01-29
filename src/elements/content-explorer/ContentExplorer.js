@@ -572,9 +572,10 @@ class ContentExplorer extends Component<Props, State> {
       if (checked[item.id])
         this.uncheck(item);
       else
-        this.setState({ checked: { ...checked, [ item.id ]: item }});
-
-      onCheck(cloneDeep(this.state.checked));
+        this.setState(
+          { checked: { ...checked, [ item.id ]: item }},
+          () => onCheck(cloneDeep(this.state.checked))
+        );
     }
 
     uncheckAll = () => {
@@ -583,6 +584,7 @@ class ContentExplorer extends Component<Props, State> {
 
     uncheck = (item: BoxItem) => {
       const { checked } = this.state;
+      const { onCheck }: Props = this.props;
 
       this.setState({ checked:
         Object.keys(checked)
@@ -591,7 +593,8 @@ class ContentExplorer extends Component<Props, State> {
             collection[ id ] = checked[ id ];
             return collection;
           }, {})
-      });
+        }, () => onCheck(cloneDeep(this.state.checked))
+      )
     }
 
     /**

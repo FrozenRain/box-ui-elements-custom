@@ -63444,8 +63444,7 @@ class ContentExplorer extends react__WEBPACK_IMPORTED_MODULE_1__["Component"] {
         checked: _objectSpread({}, checked, {
           [item.id]: item
         })
-      });
-      onCheck(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(this.state.checked));
+      }, () => onCheck(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(this.state.checked)));
     });
 
     _defineProperty(this, "uncheckAll", () => {
@@ -63458,12 +63457,15 @@ class ContentExplorer extends react__WEBPACK_IMPORTED_MODULE_1__["Component"] {
       var {
         checked
       } = this.state;
+      var {
+        onCheck
+      } = this.props;
       this.setState({
         checked: Object.keys(checked).filter(id => id != item.id).reduce((collection, id) => {
           collection[id] = checked[id];
           return collection;
         }, {})
-      });
+      }, () => onCheck(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(this.state.checked)));
     });
 
     _defineProperty(this, "searchSuccessCallback", collection => {
@@ -66060,7 +66062,7 @@ __webpack_require__.r(__webpack_exports__);
     rowIndex
   } = _ref;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_checkbox_Checkbox__WEBPACK_IMPORTED_MODULE_1__["default"], {
-    isChecked: cellData,
+    isChecked: cellData || false,
     label: label,
     name: "is-selected",
     hideLabel: true,
