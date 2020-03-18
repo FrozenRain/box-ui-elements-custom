@@ -5,6 +5,7 @@ import MoreOptions from './MoreOptions';
 import Name from '../common/item/Name';
 import type { ItemGridProps } from './flowTypes';
 import './ItemGridCell.scss';
+import { includes, keys } from 'lodash';
 
 type Props = {
     item: BoxItem,
@@ -20,8 +21,14 @@ const ItemGridCell = ({
     onItemSelect,
     rootId,
     view,
+    checked,
+    onItemCheck,
     ...rest
 }: Props) => {
+    const handleCheck = () => {
+      onItemCheck(item);
+    }
+
     return (
         <figure className="bce-ItemGridCell">
             <ItemGridThumbnail item={item} />
@@ -36,7 +43,10 @@ const ItemGridCell = ({
                     showDetails
                     view={view}
                 />
-                <MoreOptions canPreview={canPreview} isSmall item={item} onItemSelect={onItemSelect} {...rest} />
+                <div class="v-stack">
+                  <MoreOptions canPreview={canPreview} isSmall item={item} onItemSelect={onItemSelect} {...rest} />
+                  <Checkbox isChecked={includes(keys(checked), item.id)} name="is-selected" hideLabel={true} onChange={e => handleCheck()} />
+                </div>
             </figcaption>
         </figure>
     );

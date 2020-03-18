@@ -11,4 +11,19 @@
     align-items: center;
     justify-content: space-between;
     padding: 8px 10px;
+
+    .v-stack {
+      align-items: flex-end;
+      flex-direction: column-reverse;
+      align-self: baseline;
+    }
+
+    .checkbox-container {
+      margin: 0;
+    }
+}
+
+.v-stack {
+  display: flex;
+  flex-direction: column;
 }
