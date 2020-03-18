@@ -8,6 +8,6 @@ type Props = {
     className?: string,
 };
 
-const LinkButton = ({ className = '', ...rest }: Props) => <LinkBase className={`btn ${className}`} {...rest} />;
+const LinkButton = ({ className = '', ...rest }: Props) => <LinkBase className={`btn box-btn ${className}`} {...rest} />;
 
 export default LinkButton;
