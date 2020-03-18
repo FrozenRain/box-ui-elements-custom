@@ -6,6 +6,7 @@ import Name from '../common/item/Name';
 import type { ItemGridProps } from './flowTypes';
 import './ItemGridCell.scss';
 import { includes, keys } from 'lodash';
+import Checkbox from '../../components/checkbox/Checkbox';
 
 type Props = {
     item: BoxItem,
