@@ -171,7 +171,7 @@ const ItemList = ({
                             }}
                         >
                             <Column dataKey={FIELD_SELECTED} cellRenderer={checkboxCell} width={30} flexShrink={0} className="tbl-row-select-cbx"
-                              cellDataGetter={({ rowData, dataKey }) => checked[rowData[FIELD_ID]] }
+                              cellDataGetter={({ rowData, dataKey }) => ({checked: checked[rowData[FIELD_ID]], visible: rowData.type === 'file' }) }
                             />
                             <Column
                                 disableSort

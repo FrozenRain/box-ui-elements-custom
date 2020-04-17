@@ -46,7 +46,9 @@ const ItemGridCell = ({
                 />
                 <div class="v-stack">
                   <MoreOptions canPreview={canPreview} isSmall item={item} onItemSelect={onItemSelect} {...rest} />
-                  <Checkbox isChecked={includes(keys(checked), item.id)} name="is-selected" hideLabel={true} onChange={e => handleCheck()} />
+                  { item.type === 'file' &&
+                      <Checkbox isChecked={includes(keys(checked), item.id)} name="is-selected" hideLabel={true} onChange={e => handleCheck()} />
+                  }
                 </div>
             </figcaption>
         </figure>
