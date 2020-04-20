@@ -66,7 +66,8 @@ const SubHeaderRight = ({
     const showAdd: boolean = (!!canUpload || !!canCreateNewFolder) && isFolder;
     const areAllChecked = () => {
       const checkedKeys = keys(checked);
-      return items.filter(itm => itm.type === 'file').every(itm => includes(checkedKeys, itm.id));
+      const fileItems = items.filter(itm => itm.type === 'file');
+      return fileItems.length && fileItems.every(itm => includes(checkedKeys, itm.id));
     }
     return (
         <div className="be-sub-header-right">

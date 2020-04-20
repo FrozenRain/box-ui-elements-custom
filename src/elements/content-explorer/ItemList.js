@@ -136,7 +136,8 @@ const ItemList = ({
 
     const areAllChecked = () => {
       const checkedKeys = keys(checked);
-      return items.filter(itm => itm.type === 'file').every(itm => includes(checkedKeys, itm.id));
+      const fileItems = items.filter(itm => itm.type === 'file');
+      return fileItems.length && fileItems.every(itm => includes(checkedKeys, itm.id));
     }
 
     const headerCheckboxCell = () => {
