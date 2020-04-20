@@ -588,7 +588,7 @@ class ContentExplorer extends Component<Props, State> {
       const { checked, currentCollection: { items }} = this.state;
       const { onCheck }: Props = this.props;
       this.setState(
-        { checked: { ...checked, ...keyBy(items, 'id') }},
+        { checked: { ...checked, ...keyBy(items.filter(itm => itm.type === 'file'), 'id') }},
         () => onCheck(cloneDeep(this.state.checked))
       );
     }
