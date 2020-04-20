@@ -12,6 +12,11 @@ import ViewModeChangeButton from './ViewModeChangeButton';
 import { VIEW_FOLDER, VIEW_MODE_GRID } from '../../../constants';
 import type { ViewMode } from '../flowTypes';
 import './SubHeaderRight.scss';
+import Checkbox from '../../../components/checkbox/Checkbox';
+import includes from 'lodash/includes';
+import keys from 'lodash/keys';
+import { injectIntl } from 'react-intl';
+import messages from '../../common/messages';
 
 type Props = {
     canCreateNewFolder: boolean,
@@ -28,7 +33,10 @@ type Props = {
     onViewModeChange?: (viewMode: ViewMode) => void,
     view: View,
     viewMode: ViewMode,
-};
+    checked: Collection,
+    checkAll: Function,
+    uncheckAll: Function
+} & InjectIntlProvidedProps;
 
 const SubHeaderRight = ({
     canCreateNewFolder,
@@ -45,6 +53,10 @@ const SubHeaderRight = ({
     onViewModeChange,
     view,
     viewMode,
+    checked,
+    checkAll,
+    uncheckAll,
+    intl
 }: Props) => {
     const { sortBy, sortDirection, items = [] }: Collection = currentCollection;
     const hasGridView: boolean = !!gridColumnCount;
@@ -52,9 +64,18 @@ const SubHeaderRight = ({
     const isFolder: boolean = view === VIEW_FOLDER;
     const showSort: boolean = isFolder && hasItems;
     const showAdd: boolean = (!!canUpload || !!canCreateNewFolder) && isFolder;
+    const areAllChecked = () => {
+      const checkedKeys = keys(checked);
+      return items.filter(itm => itm.type === 'file').every(itm => includes(checkedKeys, itm.id));
+    }
     return (
         <div className="be-sub-header-right">
             {hasItems && viewMode === VIEW_MODE_GRID && (
+              <React.Fragment>
+                <Checkbox isChecked={areAllChecked()} label={intl.formatMessage(messages.selectAllNone)} name="is-selected"
+                  onChange={e => {
+                    areAllChecked() ? uncheckAll() : checkAll()
+                }} />
                 <GridViewSlider
                     columnCount={gridColumnCount}
                     gridMaxColumns={gridMaxColumns}
@@ -62,6 +83,7 @@ const SubHeaderRight = ({
                     maxColumnCount={maxGridColumnCountForWidth}
                     onChange={onGridViewSliderChange}
                 />
+              </React.Fragment>
             )}
             {hasItems && hasGridView && (
                 <ViewModeChangeButton viewMode={viewMode} onViewModeChange={onViewModeChange} />
@@ -82,4 +104,4 @@ const SubHeaderRight = ({
     );
 };
 
-export default SubHeaderRight;
+export default injectIntl(SubHeaderRight);

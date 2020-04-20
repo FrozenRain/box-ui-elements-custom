@@ -12,6 +12,8 @@ import debounce from 'lodash/debounce';
 import flow from 'lodash/flow';
 import noop from 'lodash/noop';
 import uniqueid from 'lodash/uniqueId';
+import keyBy from 'lodash/keyBy';
+import omit from 'lodash/omit';
 import CreateFolderDialog from '../common/create-folder-dialog';
 import UploadDialog from '../common/upload-dialog';
 import Header from '../common/header';
@@ -580,6 +582,24 @@ class ContentExplorer extends Component<Props, State> {
 
     uncheckAll = () => {
       this.setState({ checked: {}});
+    }
+
+    checkAll = () => {
+      const { checked, currentCollection: { items }} = this.state;
+      const { onCheck }: Props = this.props;
+      this.setState(
+        { checked: { ...checked, ...keyBy(items, 'id') }},
+        () => onCheck(cloneDeep(this.state.checked))
+      );
+    }
+
+    uncheckAllHere = () => {
+      const { checked, currentCollection: { items }} = this.state;
+      const { onCheck }: Props = this.props;
+      this.setState(
+        { checked: { ...omit(checked, items.filter(itm => itm.type === 'file').map(itm => itm.id)) }},
+        () => onCheck(cloneDeep(this.state.checked))
+      );
     }
 
     uncheck = (item: BoxItem) => {
@@ -1514,6 +1534,9 @@ class ContentExplorer extends Component<Props, State> {
                                     onItemClick={this.fetchFolder}
                                     onSortChange={this.sort}
                                     onViewModeChange={this.changeViewMode}
+                                    checked={checked}
+                                    checkAll={this.checkAll}
+                                    uncheckAll={this.uncheckAllHere}
                                 />
                             </>
                         )}
@@ -1546,6 +1569,8 @@ class ContentExplorer extends Component<Props, State> {
                             viewMode={viewMode}
                             metadataColumnsToShow={metadataColumnsToShow}
                             checked={checked}
+                            checkAll={this.checkAll}
+                            uncheckAll={this.uncheckAllHere}
                         />
                         <Footer>
                             <Pagination

@@ -21,6 +21,9 @@ import moreOptionsCellRenderer from './moreOptionsCellRenderer';
 import { FIELD_SELECTED, FIELD_DATE, FIELD_ID, FIELD_NAME, FIELD_SIZE, VIEW_FOLDER, VIEW_RECENTS } from '../../constants';
 import './ItemList.scss';
 import checkboxCellRenderer from './checkboxCellRenderer';
+import includes from 'lodash/includes';
+import keys from 'lodash/keys';
+import Checkbox from '../../components/checkbox/Checkbox';
 
 type Props = {
     canDelete: boolean,
@@ -46,7 +49,9 @@ type Props = {
     rootId: string,
     tableRef: Function,
     view: View,
-    checked: Collection
+    checked: Collection,
+    checkAll: Function,
+    uncheckAll: Function
 } & InjectIntlProvidedProps;
 
 const ItemList = ({
@@ -74,7 +79,9 @@ const ItemList = ({
     tableRef,
     focusedRow,
     intl,
-    checked
+    checked,
+    checkAll,
+    uncheckAll
 }: Props) => {
     const nameCell = nameCellRenderer(
         rootId,
@@ -127,6 +134,20 @@ const ItemList = ({
       intl.formatMessage(messages.isSelected)
     );
 
+    const areAllChecked = () => {
+      const checkedKeys = keys(checked);
+      return items.filter(itm => itm.type === 'file').every(itm => includes(checkedKeys, itm.id));
+    }
+
+    const headerCheckboxCell = () => {
+      return (
+        <Checkbox isChecked={areAllChecked()} label={intl.formatMessage(messages.isSelected)} name="is-selected" hideLabel={true}
+          onChange={e => {
+            areAllChecked() ? uncheckAll() : checkAll()
+        }} />
+      )
+    }
+
     return (
         <KeyBinder
             id={id}
@@ -170,7 +191,8 @@ const ItemList = ({
                                 }
                             }}
                         >
-                            <Column dataKey={FIELD_SELECTED} cellRenderer={checkboxCell} width={30} flexShrink={0} className="tbl-row-select-cbx"
+                            <Column dataKey={FIELD_SELECTED} cellRenderer={checkboxCell} headerRenderer={headerCheckboxCell}
+                              width={30} flexShrink={0} className="tbl-row-select-cbx" disableSort={true}
                               cellDataGetter={({ rowData, dataKey }) => ({checked: checked[rowData[FIELD_ID]], visible: rowData.type === 'file' }) }
                             />
                             <Column

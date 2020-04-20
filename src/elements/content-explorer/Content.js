@@ -54,7 +54,9 @@ type Props = {
     tableRef: Function,
     view: View,
     viewMode?: ViewMode,
-    checked: Collection
+    checked: Collection,
+    checkAll: Function,
+    uncheckAll: Function
 };
 
 const Content = ({

@@ -32,6 +32,9 @@ type Props = {
     rootName?: string,
     view: View,
     viewMode?: ViewMode,
+    checked: Collection,
+    checkAll: Function,
+    uncheckAll: Function
 };
 
 const SubHeader = ({
@@ -53,6 +56,9 @@ const SubHeader = ({
     rootName,
     view,
     viewMode = VIEW_MODE_LIST,
+    checked,
+    checkAll,
+    uncheckAll
 }: Props) => (
     <div className="be-sub-header" data-testid="be-sub-header">
         <SubHeaderLeft
@@ -78,6 +84,9 @@ const SubHeader = ({
             onViewModeChange={onViewModeChange}
             view={view}
             viewMode={viewMode}
+            checkAll={checkAll}
+            uncheckAll={uncheckAll}
+            checked={checked}
         />
     </div>
 );

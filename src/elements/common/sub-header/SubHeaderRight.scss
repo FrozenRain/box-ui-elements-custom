@@ -11,4 +11,17 @@
     .bdl-ViewModeChangeButton {
         margin-left: 7px;
     }
+
+    .checkbox-container {
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        margin-right: 2.5em;
+
+        label {
+          span {
+            padding: 1px;
+          }
+        }
+    }
 }

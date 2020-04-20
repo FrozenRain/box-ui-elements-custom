@@ -944,6 +944,11 @@ const messages = defineMessages({
         description: 'Label for item checked attribute.',
         defaultMessage: 'Is selected',
     },
+    selectAllNone: {
+        id: 'be.selectAllNone',
+        description: 'Label for item checked attribute.',
+        defaultMessage: 'Select all/none',
+    },
 });
 
 export default messages;
