@@ -279,7 +279,7 @@
         "sass-loader": "^7.3.1",
         "sass-variable-parser": "^1.2.2",
         "scroll-into-view-if-needed": "^2.2.24",
-        "semantic-release": "^16.0.4",
+        "semantic-release": "^17.2.3",
         "sinon": "^2.3.7",
         "string-replace-loader": "^2.2.0",
         "style-loader": "^0.23.1",
